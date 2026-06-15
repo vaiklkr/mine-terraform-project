@@ -25,7 +25,7 @@ pipeline {
                                 terraform plan
                             '''
                         }
-                        sh 'sleep 8'
+                        sh 'sleep 10'
                         dir('envs/staging') {
                             sh '''
                                 pwd
@@ -33,7 +33,7 @@ pipeline {
                                 terraform plan
                             '''
                         }
-                        sh 'sleep 6'
+                        sh 'sleep 10'
                     }
                     else if (branchName == "terraform-apply") {
                         sh 'pwd'
