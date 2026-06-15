@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            labels "frontend-node"
+            label "frontend-node"
         }
     }
     stages {
