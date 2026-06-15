@@ -15,7 +15,7 @@ pipeline {
                     if (branchName == "terraform-plan") {
                         sh 'pwd'
                         sh 'git branch'
-                        dir('env/dev') {
+                        dir('envs/dev') {
                             sh '''
                                 pwd
                                 terraform init
@@ -23,7 +23,7 @@ pipeline {
                             '''
                         }
                         sh 'sleep 10'
-                        dir('env/staging') {
+                        dir('envs/staging') {
                             sh '''
                                 pwd
                                 terraform init
