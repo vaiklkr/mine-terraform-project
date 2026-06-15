@@ -12,19 +12,19 @@ pipeline {
                 def branchName = env.BRANCH_NAME
                 echo "build branch: ${branchName}"
 
-                if (branchName = "terraform-plan") {
+                if (branchName == "terraform-plan") {
                     sh 'pwd'
                     sh 'git branch'
                     sh 'cd env/dev'
                     sh 'pwd'
                 }
-                else if (branchName = "terraform-apply") {
+                else if (branchName == "terraform-apply") {
                     sh 'pwd'
                     sh 'git branch'
                     sh 'cd env/dev'
                     sh 'pwd'
                 }
-                else if (branchName = "terraform-destroy"){
+                else if (branchName == "terraform-destroy"){
                     sh 'pwd'
                     sh 'git branch'
                     sh 'cd env/dev'
