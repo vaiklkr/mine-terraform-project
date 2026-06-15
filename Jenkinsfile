@@ -1,4 +1,7 @@
 pipeline {
+    options {
+            buildDiscarder(logRotator(numToKeepStr: '3', daysToKeepStr: '3'))
+    }
     agent {
         node {
             label "frontend-node"
