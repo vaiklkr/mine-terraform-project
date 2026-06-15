@@ -41,8 +41,7 @@ pipeline {
                         dir('env/dev') {
                             sh '''
                                 pwd
-                                terraform init
-                                terraform plan
+                                terraform apply
                             '''
                         }
                     }
