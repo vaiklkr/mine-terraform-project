@@ -15,14 +15,32 @@ pipeline {
                     if (branchName == "terraform-plan") {
                         sh 'pwd'
                         sh 'git branch'
-                        sh 'cd env/dev'
-                        sh 'pwd'
+                        dir('env/dev') {
+                            sh '''
+                                pwd
+                                terraform init
+                                terraform plan
+                            '''
+                        }
+                        sh 'sleep 10'
+                        dir('env/staging') {
+                            sh '''
+                                pwd
+                                terraform init
+                                terraform plan
+                            '''
+                        }
                     }
                     else if (branchName == "terraform-apply") {
                         sh 'pwd'
                         sh 'git branch'
-                        sh 'cd env/dev'
-                        sh 'pwd'
+                        dir('env/dev') {
+                            sh '''
+                                pwd
+                                terraform init
+                                terraform plan
+                            '''
+                        }
                     }
                     else if (branchName == "terraform-destroy"){
                         sh 'pwd'
