@@ -33,6 +33,7 @@ pipeline {
                                 terraform plan
                             '''
                         }
+                        sh 'sleep 10'
                     }
                     else if (branchName == "terraform-apply") {
                         sh 'pwd'
