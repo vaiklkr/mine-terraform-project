@@ -38,7 +38,7 @@ pipeline {
                     else if (branchName == "terraform-apply") {
                         sh 'pwd'
                         sh 'git branch'
-                        dir('env/dev') {
+                        dir('envs/dev') {
                             sh '''
                                 pwd
                                 terraform apply
