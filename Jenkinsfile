@@ -49,8 +49,12 @@ pipeline {
                     else if (branchName == "terraform-destroy"){
                         sh 'pwd'
                         sh 'git branch'
-                        sh 'cd env/dev'
-                        sh 'pwd'
+                        dir('envs/dev') {
+                            sh '''
+                                pwd
+                                terraform destroy -auto-approve
+                            '''
+                        }
                     }
 
                 }
