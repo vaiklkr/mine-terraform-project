@@ -52,6 +52,7 @@ pipeline {
                         dir('envs/dev') {
                             sh '''
                                 pwd
+                                terraform init
                                 terraform destroy -auto-approve
                             '''
                         }
