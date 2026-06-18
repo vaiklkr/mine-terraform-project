@@ -19,4 +19,5 @@ module "eks" {
     max_size = var.max_size
     min_size = var.min_size
     desired_size = var.desired_size
+    depends_on = [module.vpc]
 }
