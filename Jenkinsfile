@@ -42,7 +42,8 @@ pipeline {
                             sh '''
                                 pwd
                                 terraform init
-                                terraform apply -auto-approve
+                                terraform apply -target=module.vpc -auto-approve
+                                terraform apply -auto-approve                                
                             '''
                         }
                     }
@@ -53,6 +54,7 @@ pipeline {
                             sh '''
                                 pwd
                                 terraform init
+                                terraform destroy -target=module.eks -auto-approve
                                 terraform destroy -auto-approve
                             '''
                         }
