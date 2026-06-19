@@ -1,11 +1,5 @@
-variable "env" {}
-variable "cluster_name" {}
-variable "kubernetes_version" {}
+variable "aws_region" {
+  default = "ap-south-1"
+}
+
 variable "vpc_cidr" {}
-variable "azs" {}
-variable "public_subnets" {}
-variable "private_subnets" {}
-variable "node_instance_types" {}
-variable "min_size" {}
-variable "max_size" {}
-variable "desired_size" {}

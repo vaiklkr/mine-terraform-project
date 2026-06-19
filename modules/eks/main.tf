@@ -1,31 +1,45 @@
-module "eks" {
-  source  = "terraform-aws-modules/eks/aws"
-  version = "21.23.0"
+module "vpc" {
+  source = "../../modules/vpc"
 
-  name               = var.cluster_name
-  kubernetes_version = var.kubernetes_version
+  name = "staging-vpc"
 
-  vpc_id     = var.vpc_id
-  subnet_ids = var.private_subnets
+  cidr = var.vpc_cidr
 
-  endpoint_public_access  = true
-  endpoint_private_access = true
+  azs = [
+    "ap-south-1a",
+    "ap-south-1b"
+  ]
 
-  enable_cluster_creator_admin_permissions = true
+  private_subnets = [
+    "10.20.1.0/24",
+    "10.20.2.0/24"
+  ]
 
-  eks_managed_node_groups = {
-    general = {
-      name           = "${var.env}-general-ng"
-      instance_types = var.node_instance_types
-
-      min_size     = var.min_size
-      max_size     = var.max_size
-      desired_size = var.desired_size
-    }
-  }
+  public_subnets = [
+    "10.20.101.0/24",
+    "10.20.102.0/24"
+  ]
 
   tags = {
-    Environment = var.env
-    Terraform   = "true"
+    Environment = "staging"
+  }
+}
+
+module "eks" {
+  source = "../../modules/eks"
+
+  cluster_name = "staging-eks"
+
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnets
+
+  instance_types = ["t3.large"]
+
+  min_size     = 2
+  max_size     = 4
+  desired_size = 2
+
+  tags = {
+    Environment = "staging"
   }
 }

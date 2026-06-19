@@ -1,6 +1,7 @@
 pipeline {
     options {
             buildDiscarder(logRotator(numToKeepStr: '3', daysToKeepStr: '3'))
+            ansiColor('xterm')
     }
     agent {
         node {

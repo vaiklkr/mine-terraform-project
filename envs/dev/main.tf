@@ -1,22 +1,45 @@
 module "vpc" {
-    source = "../../modules/vpc"
-    env = var.env
-    vpc_cidr = var.vpc_cidr
-    azs = var.azs
-    public_subnets = var.public_subnets
-    private_subnets = var.private_subnets
+  source = "../../modules/vpc"
+
+  name = "dev-vpc"
+
+  cidr = var.vpc_cidr
+
+  azs = [
+    "ap-south-1a",
+    "ap-south-1b"
+  ]
+
+  private_subnets = [
+    "10.10.1.0/24",
+    "10.10.2.0/24"
+  ]
+
+  public_subnets = [
+    "10.10.101.0/24",
+    "10.10.102.0/24"
+  ]
+
+  tags = {
+    Environment = "dev"
+  }
 }
 
 module "eks" {
-    source = "../../modules/eks"
+  source = "../../modules/eks"
 
-    env = var.env
-    cluster_name = var.cluster_name
-    kubernetes_version = var.kubernetes_version
-    vpc_id = module.vpc.vpc_id
-    private_subnets = module.vpc.private_subnets
-    node_instance_types = var.node_instance_types
-    max_size = var.max_size
-    min_size = var.min_size
-    desired_size = var.desired_size
+  cluster_name = "dev-eks"
+
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnets
+
+  instance_types = ["t3.medium"]
+
+  min_size     = 1
+  max_size     = 2
+  desired_size = 1
+
+  tags = {
+    Environment = "dev"
+  }
 }

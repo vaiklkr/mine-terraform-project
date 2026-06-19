@@ -1,5 +1,8 @@
-variable "env" {}
-variable "vpc_cidr" {}
+variable "name" {}
+variable "cidr" {}
 variable "azs" {}
-variable "public_subnets" {}
 variable "private_subnets" {}
+variable "public_subnets" {}
+variable "tags" {
+  type = map(string)
+}
