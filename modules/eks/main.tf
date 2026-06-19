@@ -1,45 +1,26 @@
-module "vpc" {
-  source = "../../modules/vpc"
-
-  name = "staging-vpc"
-
-  cidr = var.vpc_cidr
-
-  azs = [
-    "ap-south-1a",
-    "ap-south-1b"
-  ]
-
-  private_subnets = [
-    "10.20.1.0/24",
-    "10.20.2.0/24"
-  ]
-
-  public_subnets = [
-    "10.20.101.0/24",
-    "10.20.102.0/24"
-  ]
-
-  tags = {
-    Environment = "staging"
-  }
-}
-
 module "eks" {
-  source = "../../modules/eks"
+  source  = "terraform-aws-modules/eks/aws"
+  version = "~> 20.15"
 
-  cluster_name = "staging-eks"
+  cluster_name    = var.cluster_name
+  cluster_version = "1.30"
 
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnets
+  subnet_ids = var.private_subnet_ids
+  vpc_id     = var.vpc_id
 
-  instance_types = ["t3.large"]
+  cluster_endpoint_public_access = true
 
-  min_size     = 2
-  max_size     = 4
-  desired_size = 2
+  eks_managed_node_groups = {
+    default = {
+      instance_types = var.instance_types
 
-  tags = {
-    Environment = "staging"
+      min_size     = var.min_size
+      max_size     = var.max_size
+      desired_size = var.desired_size
+
+      capacity_type = "ON_DEMAND"
+    }
   }
+
+  tags = var.tags
 }

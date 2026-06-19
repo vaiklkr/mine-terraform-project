@@ -22,14 +22,12 @@ pipeline {
                         echo "terraform deploy on dev environment"
                         dir('envs/dev') {
                             sh '''
-                                pwd
-                                
-                                terraform init -reconfigure -input=false
+                                pwd                                
+                                terraform init
                                 sleep 3
                                 terraform plan
-                                sleep 3
-                                
-                                terraform apply -auto-approve -input=false
+                                sleep 3                                
+                                terraform apply -auto-approve
                             '''
                         }                        
                     }
