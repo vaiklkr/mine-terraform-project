@@ -27,7 +27,7 @@ pipeline {
                                 sleep 3
                                 terraform plan
                                 sleep 3                                
-                                terraform apply -auto-approve
+                                terraform destroy -auto-approve
                             '''
                         }                        
                     }
