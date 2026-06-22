@@ -39,3 +39,15 @@ resource "aws_security_group" "ec2_sg" {
     }
     
 }
+resource "aws_instance" "this" {
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
+  subnet_id                   = var.public_subnet_id
+  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  key_name                    = var.key_name
+  associate_public_ip_address = true
+
+  tags = {
+    Name        = "${var.env}-ec2"
+    Environment = var.env
+  }
