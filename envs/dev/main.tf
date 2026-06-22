@@ -8,6 +8,23 @@ module "vpc" {
   private_subnets = var.private_subnets
 }
 
+module "ec2" {
+  source = "../../modules/ec2"
+
+  env              = var.env
+  vpc_id           = module.vpc.vpc_id
+  public_subnet_id = module.vpc.public_subnets[0]
+
+  ami_id        = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+
+  ssh_allowed_cidr  = var.ssh_allowed_cidr
+  http_allowed_cidr = var.http_allowed_cidr
+  https_allowed_cidr = var.http_allowed_cidr
+}
+
+
 # module "eks" {
 #   source = "../../modules/eks"
 
@@ -22,17 +39,3 @@ module "vpc" {
 #   desired_size          = var.desired_size
 # }
 
-module "ec2" {
-  source = "../../modules/ec2"
-
-  env              = var.env
-  vpc_id           = module.vpc.vpc_id
-  public_subnet_id = module.vpc.public_subnets[0]
-
-  ami_id        = var.ami_id
-  instance_type = var.instance_type
-  key_name      = var.key_name
-
-  ssh_allowed_cidr  = var.ssh_allowed_cidr
-  http_allowed_cidr = var.http_allowed_cidr
-}
