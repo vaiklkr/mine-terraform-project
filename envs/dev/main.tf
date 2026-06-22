@@ -1,45 +1,38 @@
 module "vpc" {
   source = "../../modules/vpc"
 
-  name = "dev-vpc"
-
-  cidr = var.vpc_cidr
-
-  azs = [
-    "ap-south-1a",
-    "ap-south-1b"
-  ]
-
-  private_subnets = [
-    "10.10.1.0/24",
-    "10.10.2.0/24"
-  ]
-
-  public_subnets = [
-    "10.10.101.0/24",
-    "10.10.102.0/24"
-  ]
-
-  tags = {
-    Environment = "dev"
-  }
+  env             = var.env
+  vpc_cidr        = var.vpc_cidr
+  azs             = var.azs
+  public_subnets  = var.public_subnets
+  private_subnets = var.private_subnets
 }
 
-module "eks" {
-  source = "../../modules/eks"
+# module "eks" {
+#   source = "../../modules/eks"
 
-  cluster_name = "dev-eks"
+#   env                   = var.env
+#   cluster_name          = var.cluster_name
+#   kubernetes_version    = var.kubernetes_version
+#   vpc_id                = module.vpc.vpc_id
+#   private_subnets       = module.vpc.private_subnets
+#   node_instance_types   = var.node_instance_types
+#   min_size              = var.min_size
+#   max_size              = var.max_size
+#   desired_size          = var.desired_size
+# }
 
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnets
+module "ec2" {
+  source = "../../modules/ec2"
 
-  instance_types = ["t3.small"]
+  env              = var.env
+  vpc_id           = module.vpc.vpc_id
+  public_subnet_id = module.vpc.public_subnets[0]
 
-  min_size     = 1
-  max_size     = 2
-  desired_size = 1
+  ami_id        = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
 
-  tags = {
-    Environment = "dev"
-  }
+  ssh_allowed_cidr  = var.ssh_allowed_cidr
+  http_allowed_cidr = var.http_allowed_cidr
 }
