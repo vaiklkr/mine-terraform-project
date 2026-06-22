@@ -51,3 +51,4 @@ resource "aws_instance" "this" {
     Name        = "${var.env}-ec2"
     Environment = var.env
   }
+}
